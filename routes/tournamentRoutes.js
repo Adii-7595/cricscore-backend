@@ -1,6 +1,9 @@
 const express = require('express');
 
 const router = express.Router();
+const {
+    authenticateToken
+} = require('../middleware/authMiddleware');
 
 const {
     createTournament,
@@ -9,10 +12,7 @@ const {
     '../controllers/tournamentController'
 );
 
-router.post(
-    '/',
-    createTournament
-);
+router.post('/', authenticateToken, createTournament);
 
 router.get(
     '/',

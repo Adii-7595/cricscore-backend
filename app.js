@@ -1,4 +1,5 @@
 require('dotenv').config();
+const express = require('express');
 
 const updateMatches = require('./services/matchUpdater');
 const updateMatchInfo = require('./services/matchInfoUpdater');
@@ -8,18 +9,15 @@ const updateCommentary = require('./services/updateCommentary');
 const tournamentRoutes = require('./routes/tournamentRoutes');
 const teamRoutes = require('./routes/teamRoutes');
 const manualMatchRoutes = require('./routes/manualMatchRoutes');
-
-
-const express = require('express');
+const playerRoutes = require('./routes/playerRoutes');
+const photoRoutes = require('./routes/photoRoutes');
+const newsRoutes = require('./routes/newsRoutes');
+const authRoutes = require('./routes/authRoutes');
 const cors = require('cors');
 const morgan = require('morgan');
-
 const mongoose = require('mongoose');
-
 const cricketRoutes = require('./routes/cricketRoutes');
-
 const app = express();
-
 const LIVE_URL =
     'https://cricbuzz-cricket.p.rapidapi.com/matches/v1/live';
 
@@ -32,11 +30,16 @@ const RECENT_URL =
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
-
 app.use('/api/cricket', cricketRoutes);
 app.use('/api/tournaments', tournamentRoutes);
 app.use('/api/teams',teamRoutes);
 app.use('/api/manual-matches', manualMatchRoutes);
+app.use('/api/photos', photoRoutes);
+app.use('/api/players', playerRoutes);
+app.use('/api/news', newsRoutes);
+app.use('/api/auth', authRoutes);
+
+
 
 const PORT = process.env.PORT || 3000;
 
@@ -51,7 +54,7 @@ mongoose.connect(process.env.MONGO_URL)
 // // Initial Sync
 // updateMatches(LIVE_URL);
 
-// // Live Matches Refresh Every 1 Minute
+// Live Matches Refresh Every 1 Minute
 // setInterval(() => {
 
 //     updateMatches(LIVE_URL);
@@ -76,15 +79,6 @@ mongoose.connect(process.env.MONGO_URL)
 // }, 300000);
 
 
-// updateMatchInfo(148393);
-// updateScorecard(148393);
-
-
-// updateCommentary(148393);   
-
-
-
-// updatePlayingXI(148393);
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

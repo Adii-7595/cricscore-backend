@@ -9,6 +9,8 @@ const teamSchema = new mongoose.Schema({
 
     name: String,
 
+    shortName: String,
+
     logo: String,
 
     captain: String
